@@ -8,25 +8,22 @@
 import UIKit
 import SkyFloatingLabelTextField
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var uiStackViewForAccountField: UIStackView!
-
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var textArea: UITextView!
     @IBOutlet weak var uiAmountStackViewField: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        let rightBtn = UIBarButtonItem(image: UIImage(systemName: "qrcode"), style: .plain, target: self, action: #selector(onClickMethod))
-        self.navigationItem.rightBarButtonItem = rightBtn
-    
-        uiStackViewForAccountField.clipsToBounds = true
-        uiAmountStackViewField.clipsToBounds = true
-        self.uiStackViewForAccountField.spacing = 10.0
-        self.uiAmountStackViewField.spacing = 10.0
-        self.uiStackViewForAccountField.addArrangedSubview(accountTextField())
-        self.uiAmountStackViewField.addArrangedSubview(ammountTextField())
+        self.hideKeyboardWhenTappedAround()
+        self.configureTextArea()
+        self.uiDesignConfigurations()
     }
-   
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
 }
-
